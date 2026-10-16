@@ -1,0 +1,16 @@
+services:
+  mdbridge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mdbridge-dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    tmpfs:
+      - /tmp:size=512m
+    env_file:
+      - path: .env
+        required: false

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyMarkItDown</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>MyMarkItDown</h1>
+      <p>Stateless document to Markdown conversion service.</p>
+    </header>
+
+    <div id="error-banner" class="notice" style="display: none; background-color: rgba(248, 113, 113, 0.15); border-color: var(--error); color: #fca5a5;"></div>
+
+    <div id="fallback-notice" class="notice" style="display: none;">
+      <strong>Note:</strong> Your browser does not support the File System Access API (directory write).
+      ZIP download fallback mode will be used.
+    </div>
+
+    <section class="card" id="picker-card">
+      <div class="grid-two">
+        <div class="folder-picker" id="input-picker-container">
+          <button id="btn-pick-input" class="btn">📁 Pick input folder</button>
+          <input type="file" id="input-folder-file" webkitdirectory multiple style="display: none;">
+          <span id="input-folder-name" class="folder-path">No folder selected</span>
+        </div>
+        <div class="folder-picker" id="output-picker-container">
+          <button id="btn-pick-output" class="btn" disabled>📂 Pick output folder</button>
+          <span id="output-folder-name" class="folder-path">No folder selected</span>
+        </div>
+      </div>
+
+      <div class="options-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-recurse" checked>
+          Recurse into subfolders
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-skip-unchanged" checked>
+          Skip unchanged files (.md exists & newer)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-frontmatter" checked>
+          Add YAML front matter
+        </label>
+      </div>
+    </section>
+
+    <section class="card" id="plan-section">
+      <div class="action-bar">
+        <h2 class="card-title" id="plan-title">Conversion Plan (0 files)</h2>
+        <button id="btn-convert" class="btn btn-primary" disabled>⚡ Convert</button>
+      </div>
+
+      <div id="progress-container" class="progress-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <p id="progress-text" style="font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.5rem; display: none;"></p>
+
+      <div class="table-container" style="margin-top: 1rem;">
+        <table id="plan-table">
+          <thead>
+            <tr>
+              <th>Relative Path</th>
+              <th>Size</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="plan-tbody">
+            <tr>
+              <td colspan="3" style="text-align: center; color: var(--text-muted);">
+                Select an input folder to view files.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="summary-card" class="summary-card">
+        <h3 class="card-title">Conversion Summary</h3>
+        <div class="summary-grid">
+          <div class="summary-stat">
+            <strong id="stat-converted" style="color: var(--success);">0</strong>
+            Converted
+          </div>
+          <div class="summary-stat">
+            <strong id="stat-skipped" style="color: var(--text-muted);">0</strong>
+            Skipped
+          </div>
+          <div class="summary-stat">
+            <strong id="stat-failed" style="color: var(--error);">0</strong>
+            Failed
+          </div>
+        </div>
+
+        <div id="single-copy-area" class="single-copy-area">
+          <button id="btn-copy-markdown" class="btn">📋 Copy Markdown to clipboard</button>
+          <span id="copy-status" style="font-size: 0.8125rem; color: var(--success); margin-left: 0.5rem; display: none;">Copied!</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

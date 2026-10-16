@@ -1,0 +1,1 @@
+"""MyMarkItDown application package."""

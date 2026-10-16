@@ -1,0 +1,26 @@
+services:
+  mdbridge:
+    image: mdbridge:latest
+    container_name: mdbridge
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=1300m
+    security_opt:
+      - no-new-privileges:true
+    cpus: "2.0"
+    mem_limit: 3g
+    # Values come from an optional .env next to this file (see .env.example)
+    environment:
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-1024}
+      CONVERT_TIMEOUT_S: ${CONVERT_TIMEOUT_S:-600}
+      MAX_CONCURRENCY: ${MAX_CONCURRENCY:-1}
+      ENABLE_FRONTMATTER_DEFAULT: ${ENABLE_FRONTMATTER_DEFAULT:-true}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      ROOT_PATH: ${ROOT_PATH:-}
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true
